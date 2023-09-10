@@ -12,7 +12,8 @@ int main(int ac, char **argv)
 	size_t n = 0;
 	ssize_t nchars_read;
 	const char *delim = " \n";
-	int num_tokens = 0, counter = 0;
+	int num_tokens = 0;
+	/* int counter = 0; */
 	char *token;
 	int i = 0;
 
@@ -68,7 +69,9 @@ int main(int ac, char **argv)
 		}
 		argv[i] = NULL;
 
-		printf("%s\n", lineptr);
+		execmd(argv);
+
+		/* printf("%s\n", lineptr); */
 
 		/* print the content of argv */
 		/* for (counter = 0; counter<num_tokens-1; counter++) */
