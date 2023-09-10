@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 			return (-1);
 
 		argv = tokenize_input(lineptr, read_input, argv);
+		execute_commands(argv);
 		/* print out argv*/
 		/* for (i = 0; argv[i] != NULL; i++) */
 		/* { */
