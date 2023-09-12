@@ -16,7 +16,7 @@ void execute_commands(char **argv)
 		command = argv[0];
 
 	    /* execute the actual command with execvp */
-		if (execvp(command, argv) == -1)
+		if (execve(command, argv, NULL) == -1)
 		{
 			perror("Error");
 		}
