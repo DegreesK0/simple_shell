@@ -14,7 +14,7 @@ void print_prompt(void);
 /* ssize_t read_input(void); */
 char **tokenize_input(char *lineptr, ssize_t read_input, char **argv);
 void execute_commands(char **argv);
-void ctrl_c_handler(int signum);
+/* void ctrl_c_handler(int signum); */
 void free_array(char **array);
 
 #endif
