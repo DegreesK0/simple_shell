@@ -41,11 +41,14 @@ int main(int argc, char **argv)
 		print_prompt();
 		read_input = getline(&lineptr, &n, stdin);
 		/* Allows Ctrl + D to exit on read_input fail*/
+		printf("%zd\n", read_input);
 		if (read_input == -1)
 		{
 			free(lineptr);
 			return (-1);
 		}
+		if (read_input == 1)
+			continue;
 
 		argv = tokenize_input(lineptr, read_input, argv);
 		if (strcmp(argv[0], exit_str) == 0)
