@@ -26,7 +26,6 @@ void execute_commands(char **argv)
 		{
 			/* Set the first command */
 			command = argv[0];
-
 			/* Execute the commands with execvp */
 			if (execvp(command, argv) == -1)
 			{
@@ -38,7 +37,6 @@ void execute_commands(char **argv)
 		else
 		{
 			/* This is executed by the parent process */
-
 			/* Waiting for the child process to finish */
 			if (waitpid(child_pid, &status, 0) == -1)
 			{
