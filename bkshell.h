@@ -18,4 +18,6 @@ void execute_commands(char **argv);
 void ctrl_c_handler(int signum);
 void free_array(char **array);
 
+ssize_t our_getline(char **lineptr, size_t *n, int fd);
+
 #endif
