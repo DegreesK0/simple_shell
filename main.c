@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	size_t n = 0;
 	char *exit_str = "exit";
 	ssize_t read_input;
-	bool interactive = true;
+	bool interactive = true; /*aka not piped*/
 	/* int i; */
 	(void)argc;
 	(void)argv;
