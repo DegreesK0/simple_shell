@@ -29,7 +29,8 @@ int main(int argc, char **argv)
 		if (interactive == true)
 			print_prompt();
 
-		read_input = getline(&lineptr, &n, stdin);
+		/* read_input = getline(&lineptr, &n, stdin); */
+		read_input = our_getline(&lineptr, &n, 0); /* stdin = 0 (file descriptor) */
 		/* Allows Ctrl + D to exit on read_input fail*/
 		if (read_input == -1)
 		{
