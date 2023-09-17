@@ -15,20 +15,26 @@ int main(int argc, char **argv)
 	size_t n = 0;
 	char *exit_str = "exit";
 	ssize_t read_input;
+	bool interactive = true; /*aka not piped*/
 	/* int i; */
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, ctrl_c_handler);
 
-	while (1)
+	while (1 && interactive)
 	{
-		print_prompt();
+		if (isatty(STDIN_FILENO) == 0)
+			interactive = false; /*interactive becomes non-interactive*/
+
+		if (interactive == true)
+			print_prompt();
+
 		read_input = getline(&lineptr, &n, stdin);
 		/* Allows Ctrl + D to exit on read_input fail*/
 		if (read_input == -1)
 		{
 			free(lineptr);
-			printf("\n");
+			_putchar('\n');
 			return (-1);
 		}
 		if (read_input == 1) /* Allows enter to work */
