@@ -19,5 +19,6 @@ void ctrl_c_handler(int signum);
 void free_array(char **array);
 
 ssize_t our_getline(char **lineptr, size_t *n, int fd);
+char *our_strtok(char *str, const char *delimiters);
 
 #endif

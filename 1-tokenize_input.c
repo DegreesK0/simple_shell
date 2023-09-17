@@ -35,7 +35,8 @@ char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 	/* Now, let's assign tokens to array (of pointers) argv!!!*/
 	argv = malloc(sizeof(char *) * num_toks); /*Make space for each token*/
 	/*Store each item/token in the argv*/
-	token = strtok(lineptr, delimiters);
+	/* token = strtok(lineptr, delimiters); */
+	token = our_strtok(lineptr, delimiters);
 	for (i = 0; token != NULL; i++)
 	{
 		argv[i] = malloc(sizeof(char) * strlen(token)); /*Make space for each token*/
