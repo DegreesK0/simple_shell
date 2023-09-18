@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdbool.h>
+#include <errno.h>
 
 int _putchar(char c);
 void print_prompt(void);
@@ -19,5 +20,6 @@ void ctrl_c_handler(int signum);
 void free_array(char **array);
 
 ssize_t our_getline(char **lineptr, size_t *n, int fd);
+char *our_strtok(char *str, const char *delimiters);
 
 #endif
