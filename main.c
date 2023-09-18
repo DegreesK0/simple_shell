@@ -38,10 +38,13 @@ int main(int argc, char **argv)
 			_putchar('\n');
 			return (-1);
 		}
-		if (read_input == 1) /* Allows enter to work */
-			continue;
+		/* if (read_input == 1) /1* Allows enter to work *1/ */
+		/* 	continue; */
 
 		argv = tokenize_input(lineptr, read_input, argv);
+
+		if (argv == NULL)
+			continue;
 		if (strcmp(argv[0], exit_str) == 0)
 		{
 			free_array(argv);

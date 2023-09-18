@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdbool.h>
+#include <errno.h>
 
 int _putchar(char c);
 void print_prompt(void);

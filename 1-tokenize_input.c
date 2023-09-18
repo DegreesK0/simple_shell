@@ -11,7 +11,7 @@
 
 char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 {
-	const char delimiters[] = " \n"; /* Delimiters: space and newline*/
+	const char delimiters[] = " "; /* Delimiters: space and newline*/
 	char *token, *lineptr_cpy = NULL;
 	int num_toks = 0, i = 0;
 
@@ -26,17 +26,21 @@ char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 	strcpy(lineptr_cpy, lineptr); /* Copy lineptr to lineptr_cpy */
 	/* Count the tokens */
 	token = strtok(lineptr_cpy, delimiters);
+	if (token == NULL)
+	{
+		return (NULL);
+	}
+
 	for (num_toks = 0; token != NULL; ++num_toks)
 	{
 		token = strtok(NULL, delimiters);
 	}
 	num_toks++; /* One more count to make space for NULL */
-
 	/* Now, let's assign tokens to array (of pointers) argv!!!*/
 	argv = malloc(sizeof(char *) * num_toks); /*Make space for each token*/
 	/*Store each item/token in the argv*/
+	token = strtok(lineptr, delimiters);
 	/* token = strtok(lineptr, delimiters); */
-	token = our_strtok(lineptr, delimiters);
 	for (i = 0; token != NULL; i++)
 	{
 		argv[i] = malloc(sizeof(char) * strlen(token)); /*Make space for each token*/
