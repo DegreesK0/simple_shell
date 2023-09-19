@@ -1,5 +1,5 @@
-#ifndef BKSHELL_H
-#define BKSHELL_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
