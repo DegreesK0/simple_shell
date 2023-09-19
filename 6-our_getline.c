@@ -7,7 +7,6 @@
  * @lineptr: buffer where text is stored. Dynamically allocates if NULL.
  * @n: size_t variable that holds the size of the buffer pointed to by lineptr
  * @fd: Use file descriptors instead FILE *stream because we are using read()
- *
  * Return: the total amount of characters read on success, -1 on failure
  */
 
@@ -21,7 +20,6 @@ ssize_t our_getline(char **lineptr, size_t *n, int fd)
 	int i = 0;
 	char *temp_pointer;
 	char *buff_pointer;
-
 
 	/* check input arguments */
 	if (lineptr == NULL || n == NULL)
