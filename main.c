@@ -1,106 +1,74 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
-#define BUFFER_SIZE 1024
-
-void execute_command(const char *command);
+#include "shell.h"
 
 /**
- * main - Entry point of the shell program.
+ * main - runs a simple shell
+ * @argc: argument count
+ * @argv: argument values
+ * @env: parameter for environment
  *
- * Description: Reads user input, executes commands, and exits o"exit" command.
- *
- * Return: Always returns 0.
+ * Return: 0 on success, -1 on fail. FOR NOW///
  */
-int main(void)
+
+
+int main(int argc, char **argv, char **env)
 {
-	char input[BUFFER_SIZE];
+	char *lineptr = NULL;
+	size_t n = 0;
+	char *exit_str = "exit";
+	char *env_str = "env";
+	ssize_t read_input;
+	/* bool interactive = true; /1* aka not piped *1/ */
+	/* int i; */
+	(void)argc;
+	(void)argv;
+	(void)env;
+	signal(SIGINT, ctrl_c_handler);
 
 	while (1)
 	{
-		printf("$ ");
-		fgets(input, BUFFER_SIZE, stdin);
+		/* if (isatty(STDIN_FILENO) == 0) */
+			/* interactive = false; /1* interactive becomes non-interactive *1/ */
 
-		input[strlen(input) - 1] = '\0';
+		/* if (interactive == true) */
+		print_string("$ ");
 
-		if (strcmp(input, "exit") == 0)
+		read_input = getline(&lineptr, &n, stdin);
+		/* read_input = our_getline(&lineptr, &n, 0); /1* stdin = 0 (file descriptor) *1/ */
+		/* Allows Ctrl + D to exit on read_input fail*/
+		if (read_input == -1)
 		{
-			printf("Exiting the shell...\n");
-			break;
+			/* if (interactive == true) */
+			/* { */
+			/* 	free(lineptr); */
+			/* 	_putchar('\n'); */
+			/* } */
+			return (0);
+		}
+		/* if (read_input == 1) /1* Allows enter to work *1/ */
+		/* 	continue; */
+
+		argv = tokenize_input(lineptr, read_input, argv);
+
+		if (argv == NULL)
+		{
+			free(argv);
+			continue;
+		}
+		if (_strcmp(argv[0], exit_str) == 0)
+		{
+			free_array(argv);
+			free(lineptr);
+			exit(0);
+		}
+		if (_strcmp(argv[0], env_str) == 0)
+		{
+			print_env(env);
+			continue;
 		}
 
-		execute_command(input);
+		execute_commands(argv);
+		free_array(argv);
 	}
-
+	free(lineptr);
 	return (0);
-}
-
-/**
- * execute_command - Execute a given command.
- *
- * @command: The command to execute.
- *
- * Description: Forks a child process to execute the commandand waits for it to
- * complete.
- */
-void execute_command(const char *command)
-{
-	pid_t pid = fork();
-	char *executable, *full_path, *full_command;
-	char *env[] = {NULL};
-
-	if (pid == -1)
-	{
-		perror("Fork failed");
-	}
-	else if (pid == 0)
-	{
-		/* child process*/
-		char *args[64];
-		char *token = strtok((char *)command, " ");
-		int i = 0;
-
-		while (token != NULL)
-		{
-			args[i++] = token;
-			token = strtok(NULL, " ");
-		}
-
-		args[i] = NULL;
-
-		/* Specify the full path to the executable */
-		executable = args[0];
-		full_path = "/bin/"; /* Adjust this path as needed */
-		full_command =
-		    malloc(strlen(full_path) + strlen(executable) + 1);
-		if (full_command == NULL)
-		{
-			perror("Memory allocation failed");
-			exit(EXIT_FAILURE);
-		}
-
-		strcpy(full_command, full_path);
-		strcat(full_command, executable);
-
-		/* Prepare environment variables (optional) */
-
-		if (execve(full_command, args, env) == -1)
-		{
-			perror("Command execution failed");
-			exit(EXIT_FAILURE);
-		}
-
-		free(full_command);
-	}
-	else
-	{
-		/* Parent process */
-		int status;
-
-		waitpid(pid, &status, 0);
-	}
 }
