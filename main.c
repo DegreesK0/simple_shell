@@ -20,7 +20,7 @@ void execute_command(const char *command);
 int main(void)
 {
 	/* char input[BUFFER_SIZE]; */
-	ssize_t read_input;
+	/* ssize_t read_input; */
 	size_t n = 0;
 	char *lineptr = NULL;
 
@@ -28,7 +28,10 @@ int main(void)
 	{
 		print_string("($) ");
 		/* fgets(input, BUFFER_SIZE, stdin); */
-		read_input = getline(&lineptr, &n, stdin);
+		/* read_input = getline(&lineptr, &n, stdin); */
+		getline(&lineptr, &n, stdin);
+
+
 
 		/* input[strlen(input) - 1] = '\0'; */
 
