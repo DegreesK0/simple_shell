@@ -1,7 +1,10 @@
 #include "shell.h"
 
 /**
- *
+ *_strcmp - compares different strings
+ *@str1: pointer to first string
+ *@str2: pointer to second string
+ *Return: difference between the two strings
  */
 
 int _strcmp(const char *str1, const char *str2)

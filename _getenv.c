@@ -1,13 +1,16 @@
 #include "shell.h"
 
 /**
- *
+ * _getenv - displays the current working environment
+ * @name: the current command
+ * Return: 0
  */
 
 char *_getenv(const char *name)
 {
 	extern char **environ;
 	char **env;
+
 	for (env = environ; *env != NULL; env++)
 	{
 		char *env_var = *env;
@@ -17,6 +20,7 @@ char *_getenv(const char *name)
 		if (name_len <= env_var_len)
 		{
 			size_t i;
+
 			for (i = 0; i < name_len; i++)
 			{
 				if (name[i] != env_var[i])
