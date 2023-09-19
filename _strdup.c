@@ -1,7 +1,9 @@
 #include "shell.h"
 
 /**
- *
+ *_strdup - duplicates a string
+ *@str: string to be copied
+ *Return: duplicate string
  */
 
 char *_strdup(const char *str)
