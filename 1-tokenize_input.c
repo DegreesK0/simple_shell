@@ -28,7 +28,7 @@ char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 	token = strtok(lineptr_cpy, delimiters);
 	if (token == NULL)
 	{
-		/* free(lineptr_cpy); */
+		free(lineptr_cpy);
 		return (NULL);
 	}
 
