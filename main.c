@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-/* #define BUFFER_SIZE 1024 */
+#define BUFFER_SIZE 1024
 
 void execute_command(const char *command);
 
@@ -19,27 +19,26 @@ void execute_command(const char *command);
  */
 int main(void)
 {
-	/* char input[BUFFER_SIZE]; */
+	char input[BUFFER_SIZE];
 	/* ssize_t read_input; */
-	size_t n = 0;
-	char *lineptr = NULL;
+	/* size_t n = 0; */
+	/* char *lineptr = NULL; */
 
 	while (1)
 	{
 		print_string("($) ");
-		/* fgets(input, BUFFER_SIZE, stdin); */
+		fgets(input, BUFFER_SIZE, stdin);
 		/* read_input = getline(&lineptr, &n, stdin); */
-		getline(&lineptr, &n, stdin);
+		/* getline(&lineptr, &n, stdin); */
 
 
+		input[strlen(input) - 1] = '\0';
 
-		/* input[strlen(input) - 1] = '\0'; */
-
-		/* if (strcmp(input, "exit") == 0) */
-		/* { */
-		/* 	printf("Exiting the shell...\n"); */
-		/* 	break; */
-		/* } */
+		if (strcmp(input, "exit") == 0)
+		{
+			printf("Exiting the shell...\n");
+			break;
+		}
 
 		/* if (read_input == -1) */
 		/* { */
@@ -52,7 +51,8 @@ int main(void)
 		/* } */
 
 
-		execute_command(lineptr);
+		execute_command(input);
+		/* execute_command(lineptr); */
 	}
 
 	return (0);
