@@ -54,13 +54,13 @@ int main(int argc, char **argv, char **env)
 			free(argv);
 			continue;
 		}
-		if (strcmp(argv[0], exit_str) == 0)
+		if (_strcmp(argv[0], exit_str) == 0)
 		{
 			free_array(argv);
 			free(lineptr);
 			exit(0);
 		}
-		if (strcmp(argv[0], env_str) == 0)
+		if (_strcmp(argv[0], env_str) == 0)
 		{
 			print_env(env);
 			continue;

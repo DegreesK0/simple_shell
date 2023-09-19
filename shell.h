@@ -26,4 +26,11 @@ char *our_strtok(char *str, const char *delimiters);
 
 char *path_finder(char *command);
 
+size_t _strlen(const char *str);
+int _strcmp(const char *str1, const char *str2);
+void _strcpy(char *destinatnion, const char *source);
+char *_strdup(const char *str);
+char *_strcat(char *destination, const char *source);
+char *_getenv(const char *name);
+
 #endif

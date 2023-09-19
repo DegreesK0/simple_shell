@@ -1,0 +1,5 @@
+#!/bin/bash
+set -o noclobber
+printf '#include "shell.h"\n\n/**\n * \n */\n\n\n' > $1
+set +o noclobber
+vi $1

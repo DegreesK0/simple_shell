@@ -23,7 +23,7 @@ char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 		perror("Error message to specify");
 		return (NULL);
 	}
-	strcpy(lineptr_cpy, lineptr); /* Copy lineptr to lineptr_cpy */
+	_strcpy(lineptr_cpy, lineptr); /* Copy lineptr to lineptr_cpy */
 	/* Count the tokens */
 	token = strtok(lineptr_cpy, delimiters);
 	if (token == NULL)
@@ -44,14 +44,14 @@ char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 	/* token = strtok(lineptr, delimiters); */
 	for (i = 0; token != NULL; i++)
 	{
-		argv[i] = malloc(sizeof(char) * strlen(token)); /*Make space for each token*/
+		argv[i] = malloc(sizeof(char) * _strlen(token)); /*Make space for each token*/
 		if (argv[i] == NULL)
 		{
 			free(lineptr_cpy);
 			perror("Error message to specify");
 			return (NULL);
 		}
-		strcpy(argv[i], token); /*Copy the token into array item of argv*/
+		_strcpy(argv[i], token); /*Copy the token into array item of argv*/
 		token = strtok(NULL, delimiters);
 	}
 	argv[i] = NULL; /*Last item in array set to NULL*/
