@@ -12,21 +12,21 @@ char *path_finder(char *command)
 	int cmd_length, dir_length;
 	struct stat buffer;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 
 	if (path)
 	{
-		path_copy = strdup(path);
-		cmd_length = strlen(command);
+		path_copy = _strdup(path);
+		cmd_length = _strlen(command);
 		path_token = strtok(path_copy, ":");
 	while (path_token != NULL)
 	{
-		dir_length = strlen(path_token);
+		dir_length = _strlen(path_token);
 		file_path = malloc(cmd_length + dir_length + 2);/*for / and null character*/
-		strcpy(file_path, path_token);
-		strcat(file_path, "/");
-		strcat(file_path, command);
-		strcat(file_path, "\0");
+		_strcpy(file_path, path_token);
+		_strcat(file_path, "/");
+		_strcat(file_path, command);
+		_strcat(file_path, "\0");
 	if (stat(file_path, &buffer) == 0)
 	{
 		free(path_copy);
