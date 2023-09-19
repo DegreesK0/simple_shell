@@ -11,7 +11,7 @@
 
 char **tokenize_input(char *lineptr, ssize_t read_input, char **argv)
 {
-	const char delimiters[] = " \n\t"; /* Delimiters: space and newline*/
+	const char delimiters[] = " \n"; /* Delimiters: space and newline*/
 	char *token, *lineptr_cpy = NULL;
 	int num_toks = 0, i = 0;
 

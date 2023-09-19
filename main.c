@@ -33,18 +33,18 @@ int main(int argc, char **argv, char **env)
 			print_string("($) ");
 
 		/* fgets(*argv, 1024, stdin); */
-		/* read_input = getline(&lineptr, &n, stdin); */
-		read_input = our_getline(&lineptr, &n, 0); /* stdin = 0 (file descriptor) */
+		read_input = getline(&lineptr, &n, stdin);
+		/* read_input = our_getline(&lineptr, &n, 0); /1* stdin = 0 (file descriptor) *1/ */
 		/* Allows Ctrl + D to exit on read_input fail*/
-		/* if (read_input == -1) */
-		/* { */
-		/* 	if (interactive == true) */
-		/* 	{ */
-		/* 		free(lineptr); */
-		/* 		_putchar('\n'); */
-		/* 	} */
-		/* 	return (0); */
-		/* } */
+		if (read_input == -1)
+		{
+			if (interactive == true)
+			{
+				free(lineptr);
+				_putchar('\n');
+			}
+			return (0);
+		}
 		/* /1* if (read_input == 1) /2* Allows enter to work *2/ *1/ */
 		/* 	continue; */
 
