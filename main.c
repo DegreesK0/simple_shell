@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **env)
 	char *exit_str = "exit";
 	char *env_str = "env";
 	ssize_t read_input;
-	/* bool interactive = true; /1* aka not piped *1/ */
+	bool interactive = true; /*aka not piped*/
 	/* int i; */
 	(void)argc;
 	(void)argv;
@@ -26,25 +26,26 @@ int main(int argc, char **argv, char **env)
 
 	while (1)
 	{
-		/* if (isatty(STDIN_FILENO) == 0) */
-			/* interactive = false; /1* interactive becomes non-interactive *1/ */
+		if (isatty(STDIN_FILENO) == 0)
+			interactive = false; /*interactive becomes non-interactive*/
 
-		/* if (interactive == true) */
-		print_string("$ ");
+		if (interactive == true)
+			print_string("($) ");
 
-		read_input = getline(&lineptr, &n, stdin);
-		/* read_input = our_getline(&lineptr, &n, 0); /1* stdin = 0 (file descriptor) *1/ */
+		/* fgets(*argv, 1024, stdin); */
+		/* read_input = getline(&lineptr, &n, stdin); */
+		read_input = our_getline(&lineptr, &n, 0); /* stdin = 0 (file descriptor) */
 		/* Allows Ctrl + D to exit on read_input fail*/
-		if (read_input == -1)
-		{
-			/* if (interactive == true) */
-			/* { */
-			/* 	free(lineptr); */
-			/* 	_putchar('\n'); */
-			/* } */
-			return (0);
-		}
-		/* if (read_input == 1) /1* Allows enter to work *1/ */
+		/* if (read_input == -1) */
+		/* { */
+		/* 	if (interactive == true) */
+		/* 	{ */
+		/* 		free(lineptr); */
+		/* 		_putchar('\n'); */
+		/* 	} */
+		/* 	return (0); */
+		/* } */
+		/* /1* if (read_input == 1) /2* Allows enter to work *2/ *1/ */
 		/* 	continue; */
 
 		argv = tokenize_input(lineptr, read_input, argv);
