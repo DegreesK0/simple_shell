@@ -1,75 +1,122 @@
 #include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+/* #define BUFFER_SIZE 1024 */
+
+void execute_command(const char *command);
 
 /**
- * main - runs a simple shell
- * @argc: argument count
- * @argv: argument values
- * @env: parameter for environment
+ * main - Entry point of the shell program.
  *
- * Return: 0 on success, -1 on fail. FOR NOW///
+ * Description: Reads user input, executes commands, and exits o"exit" command.
+ *
+ * Return: Always returns 0.
  */
-
-
-int main(int argc, char **argv, char **env)
+int main(void)
 {
-	char *lineptr = NULL;
-	size_t n = 0;
-	char *exit_str = "exit";
-	char *env_str = "env";
+	/* char input[BUFFER_SIZE]; */
 	ssize_t read_input;
-	bool interactive = true; /*aka not piped*/
-	/* int i; */
-	(void)argc;
-	(void)argv;
-	(void)env;
-	signal(SIGINT, ctrl_c_handler);
+	size_t n = 0;
+	char *lineptr = NULL;
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO) == 0)
-			interactive = false; /*interactive becomes non-interactive*/
-
-		if (interactive == true)
-			print_string("($) ");
-
-		/* fgets(*argv, 1024, stdin); */
+		print_string("($) ");
+		/* fgets(input, BUFFER_SIZE, stdin); */
 		read_input = getline(&lineptr, &n, stdin);
-		/* read_input = our_getline(&lineptr, &n, 0); /1* stdin = 0 (file descriptor) *1/ */
-		/* Allows Ctrl + D to exit on read_input fail*/
+
+		/* input[strlen(input) - 1] = '\0'; */
+
+		/* if (strcmp(input, "exit") == 0) */
+		/* { */
+		/* 	printf("Exiting the shell...\n"); */
+		/* 	break; */
+		/* } */
+
 		if (read_input == -1)
 		{
-			if (interactive == true)
-			{
-				free(lineptr);
-				_putchar('\n');
-			}
+			/* if (interactive == true) */
+			/* { */
+			/* 	free(lineptr); */
+			/* 	_putchar('\n'); */
+			/* } */
 			return (0);
 		}
-		/* /1* if (read_input == 1) /2* Allows enter to work *2/ *1/ */
-		/* 	continue; */
 
-		argv = tokenize_input(lineptr, read_input, argv);
 
-		if (argv == NULL)
-		{
-			free(argv);
-			continue;
-		}
-		if (_strcmp(argv[0], exit_str) == 0)
-		{
-			free_array(argv);
-			free(lineptr);
-			exit(0);
-		}
-		if (_strcmp(argv[0], env_str) == 0)
-		{
-			print_env(env);
-			continue;
-		}
-
-		execute_commands(argv);
-		free_array(argv);
+		execute_command(lineptr);
 	}
-	free(lineptr);
+
 	return (0);
+}
+
+/**
+ * execute_command - Execute a given command.
+ *
+ * @command: The command to execute.
+ *
+ * Description: Forks a child process to execute the commandand waits for it to
+ * complete.
+ */
+void execute_command(const char *command)
+{
+	pid_t pid = fork();
+	char *executable, *full_path, *full_command;
+	char *env[] = {NULL};
+
+	if (pid == -1)
+	{
+		perror("Fork failed");
+	}
+	else if (pid == 0)
+	{
+		/* child process*/
+		char *args[64];
+		char *token = strtok((char *)command, " \n");
+		int i = 0;
+
+		while (token != NULL)
+		{
+			args[i++] = token;
+			token = strtok(NULL, " \n");
+		}
+
+		args[i] = NULL;
+
+		/* Specify the full path to the executable */
+		executable = args[0];
+		full_path = "/bin/"; /* Adjust this path as needed */
+		full_command =
+		    malloc(strlen(full_path) + strlen(executable) + 1);
+		if (full_command == NULL)
+		{
+			perror("Memory allocation failed");
+			exit(EXIT_FAILURE);
+		}
+
+		strcpy(full_command, full_path);
+		strcat(full_command, executable);
+
+		/* Prepare environment variables (optional) */
+
+		if (execve(full_command, args, env) == -1)
+		{
+			perror("Command execution failed");
+			exit(EXIT_FAILURE);
+		}
+
+		free(full_command);
+	}
+	else
+	{
+		/* Parent process */
+		int status;
+
+		waitpid(pid, &status, 0);
+	}
 }
