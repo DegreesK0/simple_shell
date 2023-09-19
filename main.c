@@ -33,7 +33,8 @@ int main(int argc, char **argv, char **env)
 			print_string("($) ");
 
 		read_input = getline(&lineptr, &n, stdin);
-		/* read_input = our_getline(&lineptr, &n, 0); /1* stdin = 0 (file descriptor) *1/ */
+		/* read_input = our_getline(&lineptr, &n, 0);*/
+		/* /1* stdin = 0 (file descriptor) *1/ */
 		/* Allows Ctrl + D to exit on read_input fail*/
 		if (read_input == -1)
 		{
@@ -45,7 +46,7 @@ int main(int argc, char **argv, char **env)
 			return (0);
 		}
 		/* if (read_input == 1) /1* Allows enter to work *1/ */
-		/* 	continue; */
+		/* continue; */
 
 		argv = tokenize_input(lineptr, read_input, argv);
 
