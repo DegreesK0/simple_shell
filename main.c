@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **env)
 			interactive = false; /*interactive becomes non-interactive*/
 
 		if (interactive == true)
-			print_string("($) ");
+			print_string("#cisfun$ ");
 
 		read_input = getline(&lineptr, &n, stdin);
 		/* read_input = our_getline(&lineptr, &n, 0); /1* stdin = 0 (file descriptor) *1/ */
