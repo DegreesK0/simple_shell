@@ -9,7 +9,7 @@
 void execute_commands(char **argv)
 {
 	char *command = NULL;
-	char *actual_command = NULL;
+	/* char *actual_command = NULL; */
 	pid_t child_pid;
 	int status;
 
@@ -27,9 +27,10 @@ void execute_commands(char **argv)
 		{
 			/* Set the first command */
 			command = argv[0];
-			actual_command = path_finder(command);
+			/* actual_command = path_finder(command); */
 			/* Execute the actual commands with execve */
-			if (execve(actual_command, argv, NULL) == -1)
+			/* if (execve(actual_command, argv, NULL) == -1) */
+			if (execvp(command, argv) == -1)
 			{
 				perror("Exec Error");
 				exit(EXIT_FAILURE);
