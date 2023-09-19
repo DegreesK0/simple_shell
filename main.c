@@ -38,15 +38,15 @@ int main(void)
 		/* 	break; */
 		/* } */
 
-		if (read_input == -1)
-		{
-			/* if (interactive == true) */
-			/* { */
-			/* 	free(lineptr); */
-			/* 	_putchar('\n'); */
-			/* } */
-			return (0);
-		}
+		/* if (read_input == -1) */
+		/* { */
+		/* 	/1* if (interactive == true) *1/ */
+		/* 	/1* { *1/ */
+		/* 	/1* 	free(lineptr); *1/ */
+		/* 	/1* 	_putchar('\n'); *1/ */
+		/* 	/1* } *1/ */
+		/* 	return (0); */
+		/* } */
 
 
 		execute_command(lineptr);
