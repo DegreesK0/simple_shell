@@ -70,11 +70,8 @@ int main(int argc, char **argv, char **env)
 void execute_command(char *command, ssize_t read_input, char **args)
 {
 	pid_t pid = fork();
-	/* char *executable, *full_path, *full_command; */
-	/* char *env[] = {NULL}; */
-
-	char *executable = NULL;
-	char *actual_command = NULL;
+	char *executable, *full_path, *full_command;
+	char *env[] = {NULL};
 
 	if (pid == -1)
 	{
@@ -98,42 +95,28 @@ void execute_command(char *command, ssize_t read_input, char **args)
 		args = tokenize_input(command, read_input, args);
 
 		/* Specify the full path to the executable */
-		/* executable = args[0]; */
-		/* full_path = "/bin/"; /1* Adjust this path as needed *1/ */
-		/* full_command = */
-		/*     malloc(strlen(full_path) + strlen(executable) + 1); */
-		/* if (full_command == NULL) */
-		/* { */
-		/* 	perror("Memory allocation failed"); */
-		/* 	exit(EXIT_FAILURE); */
-		/* } */
-
-		/* strcpy(full_command, full_path); */
-		/* strcat(full_command, executable); */
-
-		/* /1* Prepare environment variables (optional) *1/ */
-
-		/* if (execve(full_command, args, env) == -1) */
-		/* { */
-		/* 	perror("Command execution failed"); */
-		/* 	exit(EXIT_FAILURE); */
-		/* } */
-
-		/* free(full_command); */
-
-
-
 		executable = args[0];
-		actual_command = path_finder(executable);
-		/* Execute the actual commands with execve */
-		if (execve(actual_command, args, NULL) == -1)
-		/* if (execvp(command, argv) == -1) */
+		full_path = "/bin/"; /* Adjust this path as needed */
+		full_command =
+		    malloc(strlen(full_path) + strlen(executable) + 1);
+		if (full_command == NULL)
 		{
-			perror("Exec Error");
+			perror("Memory allocation failed");
 			exit(EXIT_FAILURE);
 		}
 
+		strcpy(full_command, full_path);
+		strcat(full_command, executable);
 
+		/* Prepare environment variables (optional) */
+
+		if (execve(full_command, args, env) == -1)
+		{
+			perror("Command execution failed");
+			exit(EXIT_FAILURE);
+		}
+
+		free(full_command);
 	}
 	else
 	{
