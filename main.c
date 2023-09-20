@@ -40,11 +40,10 @@ int main(void)
 
 		if (read_input == -1)
 		{
-			/* if (interactive == true) */
-			/* { */
-			/* 	free(lineptr); */
-			/* 	_putchar('\n'); */
-			/* } */
+
+			free(lineptr);
+			_putchar('\n');
+
 			return (0);
 		}
 
