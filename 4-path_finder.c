@@ -12,7 +12,7 @@ char *path_finder(char *cmd)
 	int cmd_len, dir_len;
 	struct stat buff;
 
-	pth = _getenv("PATH");
+	pth = getenv("PATH");
 
 	if (pth)
 	{
