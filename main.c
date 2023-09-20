@@ -9,7 +9,7 @@
 /* #define BUFFER_SIZE 1024 */
 
 /* void execute_command(const char *command); */
-void execute_command(char *command, ssize_t read_input, char **argv);
+int execute_command(char *command, ssize_t read_input, char **argv, char **env);
 
 /**
  * main - Entry point of the shell program.
@@ -36,11 +36,11 @@ int main(int argc, char **argv, char **env)
 
 		/* input[strlen(input) - 1] = '\0'; */
 
-		/* if (strcmp(input, "exit") == 0) */
-		/* { */
-		/* 	printf("Exiting the shell...\n"); */
-		/* 	break; */
-		/* } */
+		if (strcmp(lineptr, "exit\n") == 0)
+		{
+			/* printf("Exiting the shell...\n"); */
+			break;
+		}
 
 		/* if (read_input == -1) */
 		/* { */
@@ -52,9 +52,10 @@ int main(int argc, char **argv, char **env)
 		/* } */
 
 
-		execute_command(lineptr, read_input, argv);
+		execute_command(lineptr, read_input, argv, env);
 	}
 
+	free(lineptr);
 	return (0);
 }
 
@@ -67,7 +68,7 @@ int main(int argc, char **argv, char **env)
  * complete.
  */
 /* void execute_command(const char *command) */
-void execute_command(char *command, ssize_t read_input, char **args)
+int execute_command(char *lineptr, ssize_t read_input, char **args, char **env)
 {
 	pid_t pid = fork();
 	/* char *executable, *full_path, *full_command; */
@@ -75,6 +76,8 @@ void execute_command(char *command, ssize_t read_input, char **args)
 
 	char *executable = NULL;
 	char *actual_command = NULL;
+	/* char *exit_str = "exit"; */
+	char *env_str = "env";
 
 	if (pid == -1)
 	{
@@ -95,7 +98,23 @@ void execute_command(char *command, ssize_t read_input, char **args)
 
 		/* args[i] = NULL; */
 
-		args = tokenize_input(command, read_input, args);
+		args = tokenize_input(lineptr, read_input, args);
+		/* if (args == NULL) */
+		/* { */
+		/* 	free(argv); */
+		/* 	continue; */
+		/* } */
+		/* if (_strcmp(args[0], exit_str) == 0) */
+		/* { */
+		/* 	free_array(args); */
+		/* 	free(lineptr); */
+		/* 	exit(0); */
+		/* } */
+		if (_strcmp(args[0], env_str) == 0)
+		{
+			print_env(env);
+			/* continue; */
+		}
 
 		/* Specify the full path to the executable */
 		/* executable = args[0]; */
@@ -133,6 +152,7 @@ void execute_command(char *command, ssize_t read_input, char **args)
 			exit(EXIT_FAILURE);
 		}
 
+		free_array(args);
 
 	}
 	else
@@ -142,4 +162,6 @@ void execute_command(char *command, ssize_t read_input, char **args)
 
 		waitpid(pid, &status, 0);
 	}
+
+	return (0);
 }
