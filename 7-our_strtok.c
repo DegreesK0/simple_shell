@@ -9,68 +9,38 @@
 
 char *our_strtok(char *str, const char *delimiters)
 {
-	char *last_tok_pos = NULL;  /* Stores the last token position */
-	const char *delim_char;
-	char *start_tok;
-	int is_delim;
-
+	char *last_token = NULL;
+	char *token_start = last_token;
 
 	if (str != NULL)
-		last_tok_pos = str;
-	else if (last_tok_pos == NULL)
-		return (NULL);  /* No more tokens to extract */
-
-	/*Find the beginning of the token (skip leading delimiters)*/
-	for (; *last_tok_pos != '\0'; last_tok_pos++)
 	{
-		is_delim = 0;
-		for (delim_char = delimiters; *delim_char != '\0'; delim_char++)
-		{
-		if (*last_tok_pos == *delim_char)
-		{
-			is_delim = 1;
-			break;
-		}
-		}
-		if (!is_delim)
-		{
-			break;
-		}
-		/* last_tok_pos++; */
+		last_token = str;
+	} else if (last_token == NULL)
+	{
+		return (NULL);
 	}
 
-	if (*last_tok_pos == '\0')
+	while (*last_token != '\0' && strchr(delimiters, *last_token) != NULL)
 	{
-		return (NULL);  /* No more tokens to extract */
+		last_token++;
 	}
 
-	/* Find the end of the token */
-	start_tok = last_tok_pos;
-	for (; *last_tok_pos != '\0'; last_tok_pos++)
+	if (*last_token == '\0')
 	{
-		is_delim = 0;
-		for (delim_char = delimiters; *delim_char != '\0'; delim_char++)
-		{
-			if (*last_tok_pos == *delim_char)
-			{
-			    is_delim = 1;
-			    break;
-			}
-		}
-		if (is_delim)
-		{
-			break;
-		}
-		/* last_tok_pos++; */
+		return (NULL);
 	}
 
-	if (*last_tok_pos != '\0')
+
+	while (*last_token != '\0' && strchr(delimiters, *last_token) == NULL)
 	{
-		*last_tok_pos = '\0';  /* Null-terminate the token */
-		last_tok_pos++;
+		last_token++;
 	}
 
-	return (start_tok);
+	if (*last_token != '\0')
+	{
+		*last_token = '\0';
+		last_token++;
+	}
+
+	return (token_start);
 }
-
-

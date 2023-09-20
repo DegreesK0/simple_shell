@@ -21,10 +21,11 @@ void ctrl_c_handler(int signum);
 void free_array(char **array);
 void print_env(char **env);
 
-ssize_t our_getline(char **lineptr, size_t *n, int fd);
+/* ssize_t our_getline(char **lineptr, size_t *n, int fd); */
+ssize_t our_getline(char **lineptr, size_t *n, FILE *stream);
 char *our_strtok(char *str, const char *delimiters);
 
-char *path_finder(char *command);
+char *path_finder(char *cmd);
 
 size_t _strlen(const char *str);
 int _strcmp(const char *str1, const char *str2);
